@@ -1,0 +1,21 @@
+version: '3.5'
+services:
+  postgres:
+    image: postgres:12.3
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: "cc"
+      POSTGRES_PASSWORD: "postgres"
+  api:
+    build: current
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    environment:
+      CC_DBNAME: "cc"
+      CC_POSTGRES_PASSWORD: "postgres"
